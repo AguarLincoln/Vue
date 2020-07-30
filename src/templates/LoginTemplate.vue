@@ -1,7 +1,10 @@
 <template>
   <div>
     <header>
-      <nav-bar cor="green" logo="LOGO"/>
+      <nav-bar cor="green" url="#/" logo="LOGO">
+        <li><a href="#/">Home</a></li>
+        <li><a href="#/login">Login</a></li>
+      </nav-bar>
     </header>
   
   
