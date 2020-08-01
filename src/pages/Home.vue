@@ -34,6 +34,7 @@
 
 <script>
 
+import GridVue from '@/components/layouts/GridVue'
 import SiteTemplate from '@/templates/SiteTemplate'
 import CardConteudoVue from '@/components/social/CardConteudoVue'
 import ConteudoPost from '@/components/social/ConteudoPost'
@@ -51,6 +52,8 @@ export default {
     ConteudoPost,
     PublicarConteudo,
     SiteTemplate,
+    GridVue,
+    
     
   }
 }
