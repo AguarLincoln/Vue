@@ -67,6 +67,7 @@ export default {
       this.usuario = JSON.parse(usuarioSession);
       this.$router.push('/'); 
     }
+    
   },
   methods:{
     sair(){

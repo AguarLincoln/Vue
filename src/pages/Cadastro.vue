@@ -11,26 +11,31 @@
         <form class="login-form">
           
           <grid-vue class="input-field" tamanho= "11">
-            <input class="validate" id="email" type="email">
-            <label for="email" data-error="wrong" data-success="right">Nome</label>
+            <input id="name" type="text" v-model="name">
+            <label for="name">Name</label>
           </grid-vue>
           
           <grid-vue class="input-field" tamanho= "11">
-            <input class="validate" id="email" type="email">
+            <input class="validate" id="email" type="email" v-model="email">
             <label for="email" data-error="wrong" data-success="right">Email</label>
           </grid-vue>
         
         
           <grid-vue class="input-field" tamanho= "11">
-            <input id="password" type="password">
+            <input id="password" type="password" v-model="password">
             <label for="password">Password</label>
           </grid-vue>
-    
+
+          <grid-vue class="input-field" tamanho= "11">
+            <input id="password_confirmation" type="password" v-model="password_confirmation">
+            <label for="password_confirmation">confirm password</label>
+          </grid-vue>
+
           <div class="row">
-            <grid-vue class="input-field" tamanho= "5">
-              <router-link to="/cadastro" class="btn waves-effect waves-light">Cadastro</router-link> 
+            <grid-vue class="input-field" tamanho= "2">
+              <a class="btn waves-effect waves-light" v-on:click="cadastrar()">Cadastrar</a> 
             </grid-vue>
-            <grid-vue class="input-field" tamanho= "">
+            <grid-vue class="input-field" tamanho="4 offset-s5">
               <p class="margin medium-small">
                 <router-link to="/login">Já tenho cadastro</router-link>
               </p>
@@ -47,6 +52,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import GridVue from '@/components/layouts/GridVue'
 import LoginTemplate from '@/templates/LoginTemplate'
 import CardConteudoVue from '@/components/social/CardConteudoVue'
@@ -57,12 +63,46 @@ export default {
   name: 'Login',
   data () {
       return{
-
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation:''
       }
   },
   components:{
     GridVue,
     LoginTemplate,
+  },
+  methods:{
+    cadastrar(){
+      console.log('foi?');
+      axios.post(`http://127.0.0.1:8000/api/cadastro`, {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.password_confirmation
+      })
+      .then(response => {
+        console.log(response.data.token);
+        if(response.data.token){ //logado
+          console.log('Criado')
+          sessionStorage.setItem('usuario', JSON.stringify(response.data))
+          this.$router.push('/');
+        }else if(response.data.status == false){ //dados invalidos
+          alert('email ou senha invalido')
+        }else{ //erros de validação
+          console.log(this.password + ' == ' + this.password_confirmation);
+          let erros = '';
+          for(let erro of Object.values(response.data)){
+            erros += erro +"\n";
+          }
+          alert(erros);
+        }
+      })
+      .catch(e => {
+        alert('ERROR! tente novamente mais tarde.'+e);
+      })
+    }
   }
 }
 </script>
