@@ -3,8 +3,10 @@
     <header>
       <nav-bar cor="green" url="/" logo="LOGO">
         <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/login">Login</router-link></li>
-        <li><router-link to="/cadastro">Cadastre-se</router-link></li>
+        <li v-if="!usuario"><router-link to="/login">Login</router-link></li>
+        <li v-if="!usuario"><router-link to="/cadastro">Cadastre-se</router-link></li>
+        <li v-if="usuario"><router-link to="/perfil">{{usuario.name}}</router-link></li>
+        <li v-if="usuario"><a v-on:click="sair()">Sair</a></li>
       </nav-bar>
     </header>
   
@@ -51,6 +53,26 @@ export default {
     FooterVue,
     GridVue,
     CardMenuVue
+  },
+  data(){
+    return{
+      usuario: false
+    }
+    
+  },
+  created(){
+    console.log('create')
+    let usuarioSession = sessionStorage.getItem('usuario');
+    if(usuarioSession){
+      this.usuario = JSON.parse(usuarioSession);
+      this.$router.push('/'); 
+    }
+  },
+  methods:{
+    sair(){
+      this.usuario = false
+      sessionStorage.clear() 
+    }
   }
 }
 </script>

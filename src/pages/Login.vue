@@ -78,10 +78,13 @@ export default {
         password: this.password
       })
       .then(response => {
+        console.log(response.data.token);
         if(response.data.token){ //logado
-          console.log('sucesso')
+          console.log('logado')
+          sessionStorage.setItem('usuario', JSON.stringify(response.data))
+          this.$router.push('/');
         }else if(response.data.status == false){ //dados invalidos
-          console.log('nao existe')
+          alert('email ou senha invalido')
         }else{ //erros de validação
           let erros = '';
           for(let erro of Object.values(response.data)){
@@ -91,7 +94,7 @@ export default {
         }
       })
       .catch(e => {
-        alert('ERROR! tente novamente mais tarde.');
+        alert('ERROR! tente novamente mais tarde.'+e);
       })
 
     }
