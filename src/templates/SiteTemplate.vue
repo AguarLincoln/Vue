@@ -4,7 +4,7 @@
       <nav-bar cor="green" url="/" logo="LOGO">
         <li v-if="!usuario"><router-link to="/login">Login</router-link></li>
         <li v-if="!usuario"><router-link to="/cadastro">Cadastre-se</router-link></li>
-        <li v-if="usuario"><router-link to="/perfil">{{usuario.name}}</router-link></li>
+        <li v-if="usuario"><router-link to="/conta">{{usuario.name}}</router-link></li>
         <li v-if="usuario"><a v-on:click="sair()">Sair</a></li>
       </nav-bar>
     </header>

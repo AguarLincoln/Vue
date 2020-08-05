@@ -2,7 +2,7 @@
   <span>
     <login-template>
       <span slot="menu-esquerdo">
-        <img src="@/assets/logo.png" class="responsive-image">
+        <img class="responsive-img" src="@/assets/logo.png">
       </span>
       
       <span slot="principal">
@@ -53,9 +53,6 @@
 import axios from 'axios';
 import GridVue from '@/components/layouts/GridVue'
 import LoginTemplate from '@/templates/LoginTemplate'
-import CardConteudoVue from '@/components/social/CardConteudoVue'
-import ConteudoPost from '@/components/social/ConteudoPost'
-import PublicarConteudo from '@/components/social/PublicarConteudo'
 
 export default {
   name: 'Login',
