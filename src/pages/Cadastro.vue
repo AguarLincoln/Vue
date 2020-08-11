@@ -14,6 +14,11 @@
             <input id="name" type="text" v-model="name">
             <label for="name">Name</label>
           </grid-vue>
+
+          <grid-vue class="input-field" tamanho= "11">
+            <input id="description" type="text" v-model="description">
+            <label for="description">Description</label>
+          </grid-vue>
           
           <grid-vue class="input-field" tamanho= "11">
             <input class="validate" id="email" type="email" v-model="email">
@@ -62,6 +67,7 @@ export default {
       return{
         name: '',
         email: '',
+        description: '',
         password: '',
         password_confirmation:''
       }
@@ -76,13 +82,13 @@ export default {
       axios.post(`http://127.0.0.1:8000/api/cadastro`, {
         name: this.name,
         email: this.email,
+        description: this.description,
         password: this.password,
         password_confirmation: this.password_confirmation
       })
       .then(response => {
         console.log(response.data.token);
         if(response.data.token){ //logado
-          console.log('Criado')
           sessionStorage.setItem('usuario', JSON.stringify(response.data))
           this.$router.push('/');
         }else if(response.data.status == false){ //dados invalidos

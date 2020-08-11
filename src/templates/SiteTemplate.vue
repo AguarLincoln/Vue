@@ -19,6 +19,14 @@
               <slot name="menu-esquerdo"></slot>
         
             </card-menu-vue>
+
+            <card-menu-vue>
+              <h3>Amigos</h3>
+              <li>Ana</li>
+              <li>Maria</li>
+              <li>João</li>
+              <li>josé</li>
+            </card-menu-vue>
             
           </grid-vue>
           
