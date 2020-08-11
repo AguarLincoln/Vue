@@ -2,7 +2,7 @@
   <span>
     <site-template>
       <span slot="menu-esquerdo">
-        <img class="responsive-img" src="@/assets/logo.png">
+        <img class="responsive-img" :src="usuario.image">
       </span>
       
       <span slot="principal">
@@ -11,10 +11,15 @@
         <form class="login-form">
           
           <grid-vue class="input-field" tamanho= "11">
-            <input id="name" type="text" :value="name">
+            <input id="name" type="text" v-model="name">
             <label for="name">Name</label>
           </grid-vue>
           
+          <grid-vue class="input-field" tamanho= "11">
+            <input id="description" type="text" v-model="description">
+            <label for="description">Description</label>
+          </grid-vue>
+
           <grid-vue class="input-field" tamanho= "11">
             <input class="validate" id="email" type="email" :value="email">
             <label data-error="wrong" data-success="right">Email</label>
@@ -23,7 +28,7 @@
           <grid-vue class="file-field input-field" tamanho= "11">
             <div class="btn">
               <span>File</span>
-              <input type="file">
+              <input type="file" v-on:change="salvarImg">
             </div>
             <div class="file-path-wrapper">
               <input class="file-path validate" type="text">
@@ -32,12 +37,12 @@
         
           <grid-vue class="input-field" tamanho= "11">
             <input id="password" type="password" v-model="password">
-            <label v-if="!password" for="password">Password</label>
+            <label for="password">Password</label>
           </grid-vue>
 
           <grid-vue class="input-field" tamanho= "11">
             <input id="password_confirmation" type="password" v-model="password_confirmation">
-            <label v-if="!password_confirmation" for="password_confirmation">confirm password</label>
+            <label for="password_confirmation">confirm password</label>
           </grid-vue>
 
           <div class="row">
@@ -65,9 +70,12 @@ export default {
   name: 'Conta',
   data () {
       return{
+        usuario: false,
         name: '',
         email: '',
         token: '',
+        description:'',
+        image: '',
         password: '',
         password_confirmation:''
       }
@@ -79,30 +87,56 @@ export default {
   created(){
     let usuarioSession = sessionStorage.getItem('usuario');
     if(usuarioSession){
-      usuarioSession = JSON.parse(usuarioSession); 
-      this.name = usuarioSession.name
-      this.email = usuarioSession.email
-      this.token = usuarioSession.token
+      this.usuario = JSON.parse(usuarioSession); 
+      this.name = this.usuario.name 
+      this.image = this.usuario.image
+      this.email = this.usuario.email
+      this.description = this.usuario.description
+      this.password = this.usuario.password
+      this.token =this.usuario.token
+    
     }
   },
   methods:{
+
+    salvarImg(e){
+
+      let arquivo = e.target.files || e.dataTransfer.files;
+      if(!arquivo.length){
+        console.log('Tam = 0')
+        return;
+      }
+
+      let reader = new FileReader();
+      reader.onloadend = (e) => {
+        this.image = e.target.result;
+      };
+      reader.readAsDataURL(arquivo[0]);
+      
+      
+      
+    },
+
     atualizar(){
       console.log('foi?');
       axios.put(`http://127.0.0.1:8000/api/conta`, {
         name: this.name,
         email: this.email,
+        image: this.image,
+        description:  this.description,
         password: this.password,
         password_confirmation: this.password_confirmation,
-      },{"headers": {"Authorization":"Bearer "+this.token}})
+      },{"headers": {"Authorization":"Bearer "+this.usuario.token}})
       .then(response => {
         console.log(response.data);
+        this.usuario = response.data
         if(response.data.token){ //logado
           console.log('Criado')
           sessionStorage.setItem('usuario', JSON.stringify(response.data))
-        
+          alert('Atualizado com sucesso')
         }else{ //erros de validação
-          console.log(this.password + ' == ' + this.password_confirmation);
-          let erros = '';
+          console.log(this.imagem)  
+          let erros = 'Error = ';
           for(let erro of Object.values(response.data)){
             erros += erro +"\n";
           }
