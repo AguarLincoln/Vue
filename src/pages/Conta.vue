@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import GridVue from '@/components/layouts/GridVue'
 import SiteTemplate from '@/templates/SiteTemplate'
 
@@ -119,7 +118,7 @@ export default {
 
     atualizar(){
       console.log('foi?');
-      axios.put(`http://127.0.0.1:8000/api/conta`, {
+      this.$http.put(this.$url+`conta`, {
         name: this.name,
         email: this.email,
         image: this.image,

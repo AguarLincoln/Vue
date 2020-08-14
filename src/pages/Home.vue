@@ -44,7 +44,7 @@ export default {
   name: 'Home',
   data () {
       return{
-        usuario: null
+        usuario: ''
       }
   },
   components:{

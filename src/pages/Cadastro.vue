@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+
 import GridVue from '@/components/layouts/GridVue'
 import LoginTemplate from '@/templates/LoginTemplate'
 
@@ -79,7 +79,7 @@ export default {
   methods:{
     cadastrar(){
       console.log('foi?');
-      axios.post(`http://127.0.0.1:8000/api/cadastro`, {
+      this.$http.post(this.$url+`cadastro`, {
         name: this.name,
         email: this.email,
         description: this.description,

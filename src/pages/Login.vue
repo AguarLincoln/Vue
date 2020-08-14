@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import GridVue from '@/components/layouts/GridVue'
 import LoginTemplate from '@/templates/LoginTemplate'
 
@@ -65,12 +64,11 @@ export default {
   components:{
     GridVue,
     LoginTemplate,
-    axios,
   },
   methods:{
     login(){
       console.log('foi?');
-      axios.post(`http://127.0.0.1:8000/api/login`, {
+      this.$http.post(this.$url+`login`, {
         email: this.email,
         password: this.password
       })
