@@ -127,16 +127,16 @@ export default {
         password_confirmation: this.password_confirmation,
       },{"headers": {"Authorization":"Bearer "+this.usuario.token}})
       .then(response => {
-        console.log(response.data);
-        this.usuario = response.data
-        if(response.data.token){ //logado
+      
+        this.usuario = response.data.usuario
+        if(response.data.status){ //logado
           console.log('Criado')
-          sessionStorage.setItem('usuario', JSON.stringify(response.data))
+          sessionStorage.setItem('usuario', JSON.stringify(response.data.usuario))
           alert('Atualizado com sucesso')
-        }else{ //erros de validação
+        }else if(response.data.status == false && response.data.validacao){ //erros de validação
           console.log(this.imagem)  
           let erros = 'Error = ';
-          for(let erro of Object.values(response.data)){
+          for(let erro of Object.values(response.data.erros)){
             erros += erro +"\n";
           }
           alert(erros);
