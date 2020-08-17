@@ -1,14 +1,17 @@
 <template>
   <div class="row">
     <grid-vue class="input-field" tamanho="12">
-      <textarea v-model="conteudo" class="materialize-textarea"></textarea>
-      <label>Faça um post</label>
+      <input type="text" v-model="conteudo.titulo"/>
+      <textarea v-if="conteudo.titulo" placeholder="Conteudo" v-model="conteudo.texto" class="materialize-textarea"></textarea>
+      <input v-if="conteudo.titulo && conteudo.texto" type="text" v-model="conteudo.link" placeholder="Link"/>
+      <input v-if="conteudo.titulo && conteudo.texto" type="text" v-model="conteudo.image" placeholder="URL imagem"/>
+      <label>Faça um post</label>   
     </grid-vue>
-    
-    <grid-vue v-if="conteudo" class="btn z-depth-3 waves-effect waves-light" tamanho="2 offset-s10">
-      Publicar
-    </grid-vue>
-    
+    <p class="right-align">
+      <button v-if="conteudo.titulo && conteudo.texto" v-on:click="publicar()" class="btn z-depth-3 waves-effect waves-light" tamanho="2 offset-s10">
+        Publicar
+      </button>
+    </p>
   </div>
  
 </template>
@@ -18,14 +21,34 @@ import GridVue from '@/components/layouts/GridVue'
 
 export default {
   name: 'PublicarConteudo',
-  props: ['tamanho'],
+  props: ['usuario'],
   components:{
     GridVue
   },
   data () {
       return{
-        conteudo:''
+        conteudo: {titulo: '', texto: '', link: '', imagem: ''}
       }
+  },
+  methods:{
+    publicar(){
+      this.$http.post(this.$url+`conteudo`,{
+        titulo: this.conteudo.titulo,
+        texto: this.conteudo.texto,
+        link: this.conteudo.link,
+        imagem: this.conteudo.imagem
+      },
+      {"headers": {"Authorization":"Bearer "+this.usuario.token}})
+      .then(response =>{
+        
+        if(response.data.status){
+          console.log(response.data)
+        }
+      })
+      .catch( e=> {
+
+      })
+    }
   }
 }
 </script>

@@ -18,7 +18,7 @@
 
     <span slot="principal">
     
-      <publicar-conteudo/>    
+      <publicar-conteudo :usuario="usuario"/>    
 
       <card-conteudo-vue perfil="https://materializecss.com/images/yuna.jpg"
         data="01/01/2020" hora="12:30" nome="Maria Silva">
