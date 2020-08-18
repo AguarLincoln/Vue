@@ -62,18 +62,13 @@ export default {
   },
   created(){
     console.log('create')
-    let usuarioSession = sessionStorage.getItem('usuario');
+    let usuarioSession = this.$store.getters.getUsuario;
     if(usuarioSession){
-      this.usuario = JSON.parse(usuarioSession);
+      this.$store.commit('setUsuario', usuarioSession);
+      this.usuario = this.$store.getters.getUsuario;
       this.$router.push('/'); 
     }
     
-  },
-  methods:{
-    sair(){
-      this.usuario = false
-      sessionStorage.clear() 
-    }
   }
 }
 </script>

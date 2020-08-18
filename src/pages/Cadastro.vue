@@ -89,6 +89,7 @@ export default {
       .then(response => {
         console.log(response.data.status);
         if(response.data.status){ //logado
+          this.$store.commit('setUsuario', response.data.usuario);
           sessionStorage.setItem('usuario', JSON.stringify(response.data.usuario))
           this.$router.push('/');
         }else if(response.data.status == false && response.data.validacao){ //dados invalidos
