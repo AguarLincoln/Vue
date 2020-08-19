@@ -85,9 +85,9 @@ export default {
     SiteTemplate,
   },
   created(){
-    let usuarioSession = sessionStorage.getItem('usuario');
+    let usuarioSession = this.$store.getters.getUsuario;
     if(usuarioSession){
-      this.usuario = JSON.parse(usuarioSession); 
+      this.usuario = this.$store.getters.getUsuario;
       this.name = this.usuario.name 
       this.image = this.usuario.image
       this.email = this.usuario.email
@@ -126,12 +126,13 @@ export default {
         description:  this.description,
         password: this.password,
         password_confirmation: this.password_confirmation,
-      },{"headers": {"Authorization":"Bearer "+this.usuario.token}})
+      },{"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}})
       .then(response => {
       
         this.usuario = response.data.usuario
         if(response.data.status){ //logado
           console.log('Criado')
+          this.$store.commit('setUsuario', response.data.usuario)
           sessionStorage.setItem('usuario', JSON.stringify(response.data.usuario))
           alert('Atualizado com sucesso')
         }else if(response.data.status == false && response.data.validacao){ //erros de validação

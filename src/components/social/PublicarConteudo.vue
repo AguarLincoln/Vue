@@ -21,7 +21,7 @@ import GridVue from '@/components/layouts/GridVue'
 
 export default {
   name: 'PublicarConteudo',
-  props: ['usuario'],
+  props: [],
   components:{
     GridVue
   },
@@ -38,7 +38,7 @@ export default {
         link: this.conteudo.link,
         imagem: this.conteudo.imagem
       },
-      {"headers": {"Authorization":"Bearer "+this.usuario.token}})
+      {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}})
       .then(response =>{
         
         if(response.data.status){
