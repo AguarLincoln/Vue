@@ -14,7 +14,8 @@ Vue.prototype.$url = 'http://127.0.0.1:8000/api/'
 
 var store = new Vuex.Store({
   state:{
-    usuario:  sessionStorage.getItem('usuario')? JSON.parse(sessionStorage.getItem('usuario')): null
+    usuario:  sessionStorage.getItem('usuario')? JSON.parse(sessionStorage.getItem('usuario')): null,
+    linhaDoTempo: []
   },
   getters: {
     getUsuario: state => {
@@ -22,11 +23,17 @@ var store = new Vuex.Store({
     },
     getToken: state => {
       return state.usuario.token;
+    },
+    getLinhaDoTempo: state => {
+      return state.linhaDoTempo;
     }
   },
   mutations:{
     setUsuario(state, value){
       state.usuario = value;
+    },
+    setLinhaDoTempo(state, value){
+      state.linhaDoTempo = value;
     }
   }
 });

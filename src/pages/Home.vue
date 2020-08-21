@@ -20,11 +20,12 @@
     
       <publicar-conteudo />    
 
-      <card-conteudo-vue perfil="https://materializecss.com/images/yuna.jpg"
-        data="01/01/2020" hora="12:30" nome="Maria Silva">
+      <card-conteudo-vue v-for="item in listaConteudos" :key="item.id"
+        :perfil="item.user.image"
+        :data="item.data" :nome="item.user.name">
         
-        <conteudo-post img="https://materializecss.com/images/sample-1.jpg" 
-          titulo="Paisagem" descricao="ftfedtfef"/>
+        <conteudo-post :img="item.image" 
+          :titulo="item.titulo" :descricao="item.texto"/>
         
       </card-conteudo-vue>
     </span>
@@ -44,7 +45,8 @@ export default {
   name: 'Home',
   data () {
       return{
-        usuario: ''
+        usuario: '',
+        
       }
   },
   components:{
@@ -59,7 +61,25 @@ export default {
   created(){
     let usuarioSession = this.$store.getters.getUsuario;
     if(usuarioSession){
-      this.usuario = this.$store.getters.getUsuario;     
+      this.usuario = this.$store.getters.getUsuario;
+      this.$http.get(this.$url+`conteudo`,
+      {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}})
+      .then(response => {
+        console.log(response.data)
+        if(response.data.status){
+          this.$store.commit('setLinhaDoTempo',response.data.conteudos.data)
+          
+        }
+      })
+      .catch(e => {
+        
+        alert('ERROR! tente novamente mais tarde.'+e);
+      })     
+    }
+  },
+  computed:{
+    listaConteudos(){
+      return this.$store.getters.getLinhaDoTempo;       
     }
   }
 }

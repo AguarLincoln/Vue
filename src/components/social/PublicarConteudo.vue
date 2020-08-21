@@ -27,7 +27,7 @@ export default {
   },
   data () {
       return{
-        conteudo: {titulo: '', texto: '', link: '', imagem: ''}
+        conteudo: {titulo: '', texto: '', link: '', image: ''}
       }
   },
   methods:{
@@ -36,13 +36,15 @@ export default {
         titulo: this.conteudo.titulo,
         texto: this.conteudo.texto,
         link: this.conteudo.link,
-        imagem: this.conteudo.imagem
+        image: this.conteudo.image
       },
       {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}})
       .then(response =>{
         
         if(response.data.status){
-          console.log(response.data)
+          console.log(response.data.conteudos.data)
+          this.conteudo = {titulo: '', texto: '', link: '', image: ''}
+          this.$store.commit('setLinhaDoTempo',response.data.conteudos.data)
         }
       })
       .catch( e=> {
