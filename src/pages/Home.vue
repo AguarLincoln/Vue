@@ -21,11 +21,15 @@
       <publicar-conteudo />    
 
       <card-conteudo-vue v-for="item in listaConteudos" :key="item.id"
+        :id = item.id
+        :totalCurtidas="item.total_curtidas"
+        :curtiuConteudo="item.curtiu_conteudo"
         :perfil="item.user.image"
-        :data="item.data" :nome="item.user.name">
+        :data="item.data" 
+        :nome="item.user.name">
         
-        <conteudo-post :img="item.image" 
-          :titulo="item.titulo" :descricao="item.texto"/>
+        <conteudo-post :img="item.image" :titulo="item.titulo" 
+          :descricao="item.texto" :link="item.link"/>
         
       </card-conteudo-vue>
     </span>

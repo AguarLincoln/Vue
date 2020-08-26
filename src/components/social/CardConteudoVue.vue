@@ -10,7 +10,7 @@
 
         <grid-vue tamanho="11">
           <span class="black-text">
-            <strong>{{nome}}</strong> - <small>{{data}} {{hora}}</small>
+            <strong>{{nome}}</strong> - <small>{{data}}</small>
           </span>
         </grid-vue>
       </div>   
@@ -19,7 +19,8 @@
 
     </div>
     <div class="card-action">
-        <i class="material-icons">favorite_border</i>
+      <a style="cursor:pointer" @click="curtida(id)"><i class="material-icons">{{curtir}}</i>{{totalCurtidas}}</a>
+        
         <i class="material-icons">insert_comment</i>
     </div>
   </div>
@@ -31,14 +32,44 @@ import GridVue from '@/components/layouts/GridVue'
 
 export default {
   name: 'CardConteudoVue',
-  props: ['perfil', 'data', 'hora', 'nome'],
+  props: ['id', 'perfil', 'data', 'nome', 'totalCurtidas', 'curtiuConteudo'],
   components:{
     GridVue
   },
   data () {
       return{
-
+        curtir: this.curtiuConteudo ? 'favorite' : 'favorite_border',
+        totalDeCurtidas: this.totalCurtidas
       }
+  },
+  methods:{
+    curtida(id){
+      
+      this.$http.put(this.$url+`conteudo/curtir/`+ id, {},
+        {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}}
+      )
+      .then( response => {
+        if(response.status){
+          console.log(response.data)
+          this.totalDeCurtidas = response.data.curtidas
+          this.$store.commit('setLinhaDoTempo',response.data.lista.conteudos.data)
+        }else{
+          alert(response.data.erro)
+        }
+           
+      })
+      .catch(e => {
+        
+        alert('ERROR! tente novamente mais tarde.'+e);
+      })
+
+
+      if(this.curtir == 'favorite_border'){
+        this.curtir = 'favorite'
+      }else{
+        this.curtir = 'favorite_border'
+      }
+    }
   }
 }
 </script>
