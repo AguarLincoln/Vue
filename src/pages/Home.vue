@@ -24,8 +24,9 @@
         :id = item.id
         :totalCurtidas="item.total_curtidas"
         :curtiuConteudo="item.curtiu_conteudo"
+        :comentarios="item.comentarios"
         :perfil="item.user.image"
-        :data="item.data" 
+        :data="item.data_link" 
         :nome="item.user.name">
         
         <conteudo-post :img="item.image" :titulo="item.titulo" 
