@@ -21,7 +21,7 @@
     <div class="card-action">
       <p>
         <a style="cursor:pointer" @click="curtida(id)"><i class="material-icons red-text">{{curtir}}</i><font color="black">{{totalCurtidas}}</font></a>
-        <a style="cursor:pointer" @click="abreComentario(id)"><i class="material-icons black-text">insert_comment</i><font color="black">{{comentarios.length}}</font></a>  
+        <a style="cursor:pointer" @click="abreComentario()"><i class="material-icons black-text">insert_comment</i><font color="black">{{comentarios.length}}</font></a>  
       </p>
       <p v-if="exibirComentario" class="right-align">
         <input type="text" v-model="comentario" placeholder="comentar">
