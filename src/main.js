@@ -34,9 +34,25 @@ var store = new Vuex.Store({
     },
     setLinhaDoTempo(state, value){
       state.linhaDoTempo = value;
+    },
+    setPaginacao(state,lista){
+      for(let item of lista){
+        state.linhaDoTempo.push(item);
+      }
     }
   }
 });
+
+Vue.directive('scroll', {
+  inserted: function (el, binding) {
+    let f = function (evt) {
+      if (binding.value(evt, el)) {
+        window.removeEventListener('scroll', f)
+      }
+    }
+    window.addEventListener('scroll', f)
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
