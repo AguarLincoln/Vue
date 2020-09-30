@@ -33,6 +33,8 @@
           :descricao="item.texto" :link="item.link"/>
         
       </card-conteudo-vue>
+      <button  v-if="urlProxPagina" @click="carregaPaginacao()" class="btn blue">mais...</button>
+      <div v-scroll="handleScroll"></div>
     </span>
 
   </site-template>
@@ -50,7 +52,9 @@ export default {
   name: 'Home',
   data () {
       return{
-        usuario: '',
+        usuario: false,
+        urlProxPagina: null,
+        pararScroll: false
         
       }
   },
@@ -73,7 +77,40 @@ export default {
         console.log(response.data)
         if(response.data.status){
           this.$store.commit('setLinhaDoTempo',response.data.conteudos.data)
+          this.urlProxPagina = response.data.conteudos.next_page_url;
           
+        }
+      })
+      .catch(e => {
+        
+        alert('ERROR! tente novamente mais tarde.'+e);
+      })     
+    }
+  },
+  methods:{
+
+    handleScroll: function (evt, el) {
+      if(this.pararScroll)
+        return;
+
+      if(window.scrollY >= document.body.clientHeight - 966){
+        console.log('teste')
+        this.pararScroll = true;
+        this.carregaPaginacao();
+      }
+    },  
+    carregaPaginacao(){
+      if(!this.urlProxPagina)
+        return;
+
+      this.$http.get(this.urlProxPagina, {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}}
+      )
+      .then(response => {
+        if(response.data.status){
+          console.log('setou')
+          this.$store.commit('setPaginacao',response.data.conteudos.data)
+          this.urlProxPagina = response.data.conteudos.next_page_url;
+          this.pararScroll = false;
         }
       })
       .catch(e => {
