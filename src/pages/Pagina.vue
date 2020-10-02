@@ -3,15 +3,15 @@
     <span slot="menu-esquerdo">
       <div class="row valign-wrapper">
         <grid-vue tamanho="4">
-          <router-link :to="'/pagina/'+this.usuario.id">
-            <img :src="usuario.image" :alt="usuario.name" class="circle responsive-img"> <!-- notice the "circle" class -->
+          <router-link :to="'/pagina/'+this.donoDaPagina.id">
+            <img :src="donoDaPagina.image" :alt="donoDaPagina.name" class="circle responsive-img"> <!-- notice the "circle" class -->
           </router-link>
         </grid-vue>
         
         <grid-vue tamanho="8">
           <span class="black-text">
-            <router-link :to="'/pagina/'+this.usuario.id">
-              <h5>{{usuario.name}}</h5>
+            <router-link :to="'/pagina/'+this.donoDaPagina.id">
+              <h5>{{donoDaPagina.name}}</h5>
             </router-link>
             {{usuario.description || 'Sem descrição'}}
           </span>
@@ -32,7 +32,7 @@
         :comentarios="item.comentarios"
         :perfil="item.user.image"
         :data="item.data_link" 
-        :nome="item.user.name">
+        :nome="item.user.name"> 
         
         <conteudo-post :img="item.image" :titulo="item.titulo" 
           :descricao="item.texto" :link="item.link"/>
@@ -54,12 +54,13 @@ import ConteudoPost from '@/components/social/ConteudoPost'
 import PublicarConteudo from '@/components/social/PublicarConteudo'
 
 export default {
-  name: 'Home',
+  name: 'Pagina',
   data () {
       return{
         usuario: false,
         urlProxPagina: null,
-        pararScroll: false
+        pararScroll: false,
+        donoDaPagina: {imagem:'', name:''}
         
       }
   },
@@ -76,13 +77,15 @@ export default {
     let usuarioSession = this.$store.getters.getUsuario;
     if(usuarioSession){
       this.usuario = this.$store.getters.getUsuario;
-      this.$http.get(this.$url+`conteudo`,
+      this.$http.get(this.$url+`conteudo/pagina/`+this.$route.params.id,
       {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}})
       .then(response => {
         console.log(response.data)
         if(response.data.status){
           this.$store.commit('setLinhaDoTempo',response.data.conteudos.data)
           this.urlProxPagina = response.data.conteudos.next_page_url;
+          this.donoDaPagina = response.data.dono;
+         
           
         }
       })

@@ -5,12 +5,16 @@
      
       <div class="row valign-wrapper">
         <grid-vue tamanho="1">
-          <img :src="perfil" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+          <router-link :to="'/pagina/'+this.usuarioid">
+            <img :src="perfil" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+          </router-link>
         </grid-vue>
 
         <grid-vue tamanho="11">
           <span class="black-text">
-            <strong>{{nome}}</strong> - <small>{{data}}</small>
+            <router-link :to="'/pagina/'+this.usuarioid">
+              <strong>{{nome}}</strong> - <small>{{data}}</small>
+            </router-link>
           </span>
         </grid-vue>
       </div>   
@@ -46,7 +50,7 @@ import GridVue from '@/components/layouts/GridVue'
 
 export default {
   name: 'CardConteudoVue',
-  props: ['id', 'perfil', 'data', 'nome', 'totalCurtidas', 'curtiuConteudo', 'comentarios'],
+  props: ['id', 'perfil', 'data', 'nome', 'totalCurtidas', 'curtiuConteudo', 'comentarios', 'usuarioid'],
   components:{
     GridVue
   },

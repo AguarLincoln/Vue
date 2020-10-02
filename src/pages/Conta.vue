@@ -67,7 +67,7 @@ import SiteTemplate from '@/templates/SiteTemplate'
 
 export default {
   name: 'Conta',
-  props: ['usuario'],
+  props: [],
   data () {
       return{
         usuario: false,
