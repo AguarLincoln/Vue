@@ -3,14 +3,14 @@
     <span slot="menu-esquerdo">
       <div class="row valign-wrapper">
         <grid-vue tamanho="4">
-          <router-link :to="'/pagina/'+this.donoDaPagina.id">
+          <router-link :to="'/pagina/'+this.donoDaPagina.id+'/'+$slug(donoDaPagina.name,{lowercase:true})">
             <img :src="donoDaPagina.image" :alt="donoDaPagina.name" class="circle responsive-img"> <!-- notice the "circle" class -->
           </router-link>
         </grid-vue>
         
         <grid-vue tamanho="8">
           <span class="black-text">
-            <router-link :to="'/pagina/'+this.donoDaPagina.id">
+            <router-link :to="'/pagina/'+this.donoDaPagina.id+'/'+$slug(donoDaPagina.name,{lowercase:true})">
               <h5>{{donoDaPagina.name}}</h5>
             </router-link>
             {{usuario.description || 'Sem descrição'}}
