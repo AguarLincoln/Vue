@@ -80,12 +80,12 @@ export default {
       this.$http.get(this.$url+`conteudo/pagina/`+this.$route.params.id,
       {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}})
       .then(response => {
-        console.log(response.data)
+        console.log(response.data && this.$route.name == 'Pagina')
         if(response.data.status){
           this.$store.commit('setLinhaDoTempo',response.data.conteudos.data)
           this.urlProxPagina = response.data.conteudos.next_page_url;
           this.donoDaPagina = response.data.dono;
-         
+          this.pararScroll = false;
           
         }
       })

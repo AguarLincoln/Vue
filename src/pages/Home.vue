@@ -57,7 +57,7 @@ export default {
   name: 'Home',
   data () {
       return{
-        usuario: false,
+        usuario: {imagem:'', name:''},
         urlProxPagina: null,
         pararScroll: false
         
@@ -111,7 +111,7 @@ export default {
       this.$http.get(this.urlProxPagina, {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}}
       )
       .then(response => {
-        if(response.data.status){
+        if(response.data.status && this.$route.name == 'Home'){
           console.log('setou')
           this.$store.commit('setPaginacao',response.data.conteudos.data)
           this.urlProxPagina = response.data.conteudos.next_page_url;
