@@ -19,9 +19,9 @@
 
       </div>
     </span>
-    <span slot="manu-esquerdo-amigos">
+    <span slot="menu-esquerdo-amigo">
       <h3>Seguidores</h3>
-      <li v-for="item in amigos" :key="item.id">item.name</li>
+      <li v-for="item in amigos" :key="item.id">{{item.name}}</li>
       <li v-if="!amigos.length">Nenhum seguidor</li>
     </span>
     <span slot="principal">

@@ -22,11 +22,7 @@
 
             <card-menu-vue>
               <slot name="menu-esquerdo-amigo"></slot>
-              <h3>Seguindo</h3>
-              <li>Ana</li>
-              <li>Maria</li>
-              <li>João</li>
-              <li>josé</li>
+              
             </card-menu-vue>
             
           </grid-vue>

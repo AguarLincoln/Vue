@@ -95,7 +95,9 @@ export default {
           this.urlProxPagina = response.data.conteudos.next_page_url;
           this.donoDaPagina = response.data.dono;
           this.pararScroll = false;
-          
+          if(this.donoDaPagina.id != this.usuario.id){
+            this.btnSeguir = true;
+          }
         }
       })
       .catch(e => {
@@ -145,9 +147,7 @@ export default {
           this.$store.commit('setPaginacao',response.data.conteudos.data)
           this.urlProxPagina = response.data.conteudos.next_page_url;
           this.pararScroll = false;
-          if(this.donoDaPagina.id != this.usuario.id){
-            this.btnSeguir = true;
-          }
+          
         }
       })
       .catch(e => {
