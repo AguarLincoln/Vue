@@ -21,7 +21,8 @@
             </card-menu-vue>
 
             <card-menu-vue>
-              <h3>Amigos</h3>
+              <slot name="menu-esquerdo-amigo"></slot>
+              <h3>Seguindo</h3>
               <li>Ana</li>
               <li>Maria</li>
               <li>João</li>

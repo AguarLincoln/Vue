@@ -13,13 +13,21 @@
             <router-link :to="'/pagina/'+this.donoDaPagina.id+'/'+$slug(donoDaPagina.name,{lowercase:true})">
               <h5>{{donoDaPagina.name}}</h5>
             </router-link>
+            <button v-if="btnSeguir" @click="amigo(donoDaPagina.id)" class="btn">Seguir</button>
+              
             {{usuario.description || 'Sem descrição'}}
           </span>
         </grid-vue>
 
       </div>
     </span>
-
+    <span slot="menu-esquerdo-amigo">
+      <h3>Seguindo</h3>
+      <li>Ana</li>
+      <li>Maria</li>
+      <li>João</li>
+      <li>josé</li>
+    </span>
     <span slot="principal">
     
       <publicar-conteudo />    
@@ -60,7 +68,8 @@ export default {
         usuario: false,
         urlProxPagina: null,
         pararScroll: false,
-        donoDaPagina: {imagem:'', name:''}
+        donoDaPagina: {imagem:'', name:''},
+        btnSeguir: false
         
       }
   },
@@ -97,6 +106,23 @@ export default {
   },
   methods:{
 
+    amigo(id){
+      this.$http.post(this.$url+`usuario/amigo/`, {id: id},
+        {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}}
+      )
+      .then( response => {
+        if(response.data.status){
+          console.log(response)
+        }else{
+          alert(response.data.erro)
+        }
+           
+      })
+      .catch(e => {
+        
+        alert('ERROR! tente novamente mais tarde.'+e);
+      })      
+    },
     handleScroll: function (evt, el) {
       if(this.pararScroll)
         return;
@@ -119,6 +145,9 @@ export default {
           this.$store.commit('setPaginacao',response.data.conteudos.data)
           this.urlProxPagina = response.data.conteudos.next_page_url;
           this.pararScroll = false;
+          if(this.donoDaPagina.id != this.usuario.id){
+            this.btnSeguir = true;
+          }
         }
       })
       .catch(e => {

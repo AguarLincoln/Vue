@@ -71,7 +71,7 @@ export default {
       )
       .then( response => {
         if(response.status){
-          console.log(response.data)
+          console.log(response.data.data)
           this.totalDeCurtidas = response.data.curtidas
           this.$store.commit('setLinhaDoTempo',response.data.lista.conteudos.data)
           if(this.curtir == 'favorite_border'){

@@ -19,7 +19,11 @@
 
       </div>
     </span>
-
+    <span slot="manu-esquerdo-amigos">
+      <h3>Seguidores</h3>
+      <li v-for="item in amigos" :key="item.id">item.name</li>
+      <li v-if="!amigos.length">Nenhum seguidor</li>
+    </span>
     <span slot="principal">
     
       <publicar-conteudo />    
@@ -59,7 +63,8 @@ export default {
       return{
         usuario: {imagem:'', name:''},
         urlProxPagina: null,
-        pararScroll: false
+        pararScroll: false,
+        amigos: []
         
       }
   },
@@ -84,6 +89,20 @@ export default {
           this.$store.commit('setLinhaDoTempo',response.data.conteudos.data)
           this.urlProxPagina = response.data.conteudos.next_page_url;
           
+          this.$http.get(this.$url+`usuario/amigo`,
+          {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}})
+          .then(response => {
+            console.log(response.data)
+            if(response.data.status){
+              this.amigos = response.data.amigos;
+            }else{
+              alert(response.data.erro)
+            }
+          })
+          .catch(e => {
+
+            alert('ERROR! tente novamente mais tarde.'+e);
+          })
         }
       })
       .catch(e => {
