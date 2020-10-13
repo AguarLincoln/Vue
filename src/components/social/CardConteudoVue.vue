@@ -65,8 +65,13 @@ export default {
   },
   methods:{
     curtida(id){
-      
-      this.$http.put(this.$url+`conteudo/curtir/`+ id, {},
+      let url = ''
+      if(this.$route.name == 'Home'){
+        url = 'conteudo/curtir/'
+      }else{
+        url = 'conteudo/curtirpagina/'
+      }
+      this.$http.put(this.$url+url+ id, {},
         {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}}
       )
       .then( response => {
@@ -98,7 +103,14 @@ export default {
         return;
       }
 
-      this.$http.put(this.$url+`conteudo/comentar/`+ id, {
+      let url = ''
+      if(this.$route.name == 'Home'){
+        url = 'conteudo/comentar/'
+      }else{
+        url = 'conteudo/comentarpagina/'
+      }
+
+      this.$http.put(this.$url+url+ id, {
         texto: this.comentario
       },
         {"headers": {"Authorization":"Bearer "+this.$store.getters.getToken}}
