@@ -22,11 +22,17 @@
       </div>
     </span>
      <span slot="menu-esquerdo-amigo">
-      <h3>Seguidores</h3>
+      <h3>Seguindo</h3>
       <router-link v-for="item in amigos" :key="item.id" :to="'/pagina/'+item.id+'/'+$slug(item.name,{lowercase:true})">
       <li >{{item.name}}</li>
       </router-link>
       <li v-if="!amigos.length">Nenhum seguidor</li>
+
+      <h3>Seguidores</h3>
+      <router-link v-for="(item, i) in seguidores" :key="i" :to="'/pagina/'+item.id+'/'+$slug(item.name,{lowercase:true})">
+      <li >{{item.name}}</li>
+      </router-link>
+      <li v-if="!seguidores.length">Nenhum seguidor</li>
     </span>
     <span slot="principal">
     
@@ -72,7 +78,8 @@ export default {
         btnSeguir: false,
         amigos: [],
         amigosLogados: [],
-        textoBtn: 'Seguir'
+        textoBtn: 'Seguir',
+        seguidores: []
         
       }
   },
@@ -118,6 +125,7 @@ export default {
                 this.amigos = response.data.amigos;
                 this.amigosLogados = response.data.amigosLogados;
                 this.eAmigo()
+                this.seguidores = response.data.seguidores;
               }else{
                 alert(response.data.erro)
               }
@@ -151,6 +159,7 @@ export default {
       .then( response => {
         if(response.data.status){
            this.amigosLogados = response.data.amigos;
+           this.seguidores = response.data.seguidores;
            this.eAmigo();
         }else{
           alert(response.data.erro)
